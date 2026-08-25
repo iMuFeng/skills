@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Commit"
+  short_description: "Create focused, logically split Git commits"
+  default_prompt: "Use $git-commit to review the working tree, split large changes by intent, and create focused Conventional Commits."
