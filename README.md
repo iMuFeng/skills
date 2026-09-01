@@ -1,23 +1,11 @@
-# Git Commit Skill
+# Agent Skills
 
-An agent skill for creating clean, reviewable commits with Conventional Commit messages.
+A collection of focused agent skills for software development workflows.
 
-## Install
+## Skills
 
-Install it from GitHub with the [`skills`](https://github.com/vercel-labs/skills) CLI:
+| Skill | Description |
+| --- | --- |
+| [`git-commit`](git-commit/README.md) | Creates clean, reviewable commits with Conventional Commit messages. |
+| [`review-code-naming`](review-code-naming/README.md) | Reviews filenames and source-code identifiers for clarity, precision, consistency, and ambiguity. |
 
-```sh
-# GitHub shorthand (owner/repo)
-npx skills add iMuFeng/Git-Commit-Skill
-
-# Full GitHub URL
-npx skills add https://github.com/iMuFeng/Git-Commit-Skill
-```
-
-The installer will prompt you to choose the agents and installation scope.
-
-To install it globally for Codex without prompts:
-
-```sh
-npx skills add iMuFeng/Git-Commit-Skill -g -a codex -y
-```
