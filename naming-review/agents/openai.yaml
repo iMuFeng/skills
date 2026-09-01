@@ -1,0 +1,4 @@
+interface:
+  display_name: "Naming Review"
+  short_description: "Review code names for clarity and precision"
+  default_prompt: "Use $naming-review to inspect names in this code and recommend concise, precise alternatives without ambiguity."

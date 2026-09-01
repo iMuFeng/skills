@@ -7,7 +7,7 @@ A collection of focused agent skills for software development workflows.
 | Skill | Description |
 | --- | --- |
 | [`git-commit`](git-commit) | Creates clean, reviewable commits with Conventional Commit messages. |
-| [`review-code-naming`](review-code-naming) | Reviews filenames and source-code identifiers for clarity, precision, consistency, and ambiguity. |
+| [`naming-review`](naming-review) | Reviews filenames and source-code identifiers for clarity, precision, consistency, and ambiguity. |
 
 ## Install
 

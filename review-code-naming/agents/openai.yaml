@@ -1,4 +1,0 @@
-interface:
-  display_name: "Code Naming Review"
-  short_description: "Review code names for clarity and precision"
-  default_prompt: "Use $review-code-naming to inspect names in this code and recommend concise, precise alternatives without ambiguity."
