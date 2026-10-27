@@ -10,7 +10,7 @@ A collection of focused agent skills for software development workflows.
 | [`naming-review`](naming-review) | Reviews filenames and source-code identifiers for clarity, precision, consistency, and ambiguity. |
 | [`release`](release) | Releases iOS, Android, Node, and mygo projects by bumping versions and build numbers, committing, tagging, and pushing to Git. |
 
-The `release` skill first checks for uncommitted changes, including staged, unstaged, and untracked files and dirty submodules. If any exist, it reports them and stops before offering release choices. Once the working tree is clean, it reads the current version and build number and presents an interactive selector when a suitable tool is available, falling back to a text question otherwise. It waits for your explicit selection. For example, with version `0.1.0` and build number `41`:
+The `release` skill first checks for uncommitted changes, including staged, unstaged, and untracked files and dirty submodules. If any exist, it reports them and stops before offering release choices. Once the working tree is clean, it reads the current version and build number and uses the current coding agent's interactive selection tool when available. It splits choices across steps if the tool limits the number of options, or falls back to numbered text options if no suitable tool is available. It waits for your explicit selection. For example, with version `0.1.0` and build number `41`:
 
 - `Major v0.1.0-41 -> v1.0.0-42`
 - `Minor v0.1.0-41 -> v0.2.0-42`
