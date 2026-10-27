@@ -7,9 +7,15 @@ description: Release iOS, Android, Node (package.json), or mygo (mygo.json) proj
 
 Update versions, create a Git commit and tag, and push to the remote. Invoking this skill authorizes this workflow; it does not authorize npm publishing, app store uploads, deployments, or creating a GitHub Release.
 
+## First step: require a clean working tree
+
+Before discovering release targets, reading versions, offering choices, or contacting remotes, locate the Git root and read applicable repository instructions, then run `git status --porcelain=v1 --untracked-files=all --ignore-submodules=none` from that root. Apply this check on every invocation, including retries. If the check fails or the directory is not a Git repository, report the problem and stop.
+
+Any staged, unstaged, untracked (non-ignored), conflicted, or dirty submodule entry blocks the release. List the affected paths, tell the user that uncommitted changes must be handled before rerunning the skill, and end the invocation immediately. Do not offer version choices, automatically commit or stash changes, discard files, or proceed with any release step. This also applies to uncommitted version edits left by an interrupted release; preserve them and report the incomplete state. Ignored files do not block the check.
+
 ## Required release choice
 
-For every new release, first identify the release target and read its current version and build number without modifying files. Resolve missing, unsupported, or conflicting values using the platform rules below before calculating choices. Then ask: **Which version bump should this release use?** Display all four options as `<Choice> v<current-version>-<current-build> -> v<next-version>-<next-build>`, calculating each next version using the shared and platform-specific rules below. For a current version of `0.1.0` and build number `41`, show:
+After the clean-working-tree check passes, identify the release target and read its current version and build number without modifying files. Resolve missing, unsupported, or conflicting values using the platform rules below before calculating choices. For every new release, ask: **Which version bump should this release use?** Display all four options as `<Choice> v<current-version>-<current-build> -> v<next-version>-<next-build>`, calculating each next version using the shared and platform-specific rules below. For a current version of `0.1.0` and build number `41`, show:
 
 - `Major v0.1.0-41 -> v1.0.0-42`
 - `Minor v0.1.0-41 -> v0.2.0-42`
@@ -18,13 +24,15 @@ For every new release, first identify the release target and read its current ve
 
 Use the actual project version and numeric build values, not these example values or literal N / (N+1) placeholders. The next build number is always the current build number plus one. Explain that all choices increment the build number once, including Build. For a legacy two-component Node version, label Build as requiring a format decision and follow the Node-specific rule below if selected; do not imply it is ready to release unchanged.
 
-Ask once even if the invocation already includes a bump type. Use a text question if the tool cannot display four choices with their version previews. Read-only inspection may proceed before the answer, but version changes must wait. When resuming the same release after a failed push, do not ask again or increment again.
+Ask once even if the invocation already includes a bump type. Use an available interactive question tool with all four options and their full version/build previews; do not merely print the options when a suitable tool is available. Prefer `request_user_input_async` when available, passing the four labels in its `options` array. Otherwise use another interactive question tool only if it is permitted in the current mode and supports all four options. Fall back to a text question only when no available, permitted tool can present all four choices; briefly explain that limitation.
+
+Wait for the user's explicit selection before modifying versions or proceeding with the release. A preselected option, an unanswered asynchronous question, or elapsed time is not a selection. Read-only inspection may continue while waiting after the clean-working-tree check passes. When resuming the same release after a failed push, do not ask again or increment again.
 
 ## Discovery and preflight
 
 - Read project instructions and inspect the Git root, branch, working tree, staging area, remotes, and upstream. Exclude dependencies, caches, and generated directories.
 - Identify the actual release target: an app-owned `.xcodeproj` for iOS, an Android application module and its Gradle version source, `package.json` for Node, or `mygo.json` for mygo. When mobile projects coexist with a tooling package.json, do not treat the tooling package as a release target. Ask which target to release if multiple independent targets exist and context is insufficient.
-- Preserve existing changes. If staged content or unrelated edits in version files would enter the release commit, clarify the scope first. Do not run `git add .`, automatically stash, reset, or overwrite user changes. Continue when existing changes can be left independently intact.
+- Preserve user changes. If new unrelated changes appear after the initial clean-working-tree check, report them and stop. Do not run `git add .`, automatically stash, reset, or overwrite user changes.
 - Release from a named branch. Use its configured upstream remote and branch. Without an upstream, choose the same-named branch only when there is exactly one remote and the destination is clear; otherwise ask. Inspect the remote branch and tags. Resolve synchronization before proceeding if the branch is behind or diverged; do not automatically force-push, reset, or rebase user commits. Explain that existing ahead commits will also be pushed, and ask if their scope is unclear.
 
 ## Shared version rules

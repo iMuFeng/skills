@@ -1,4 +1,4 @@
 interface:
   display_name: "Release"
   short_description: "Bump versions, commit, tag, and push project releases"
-  default_prompt: "Use $release to release the current project, first reading its version and build number and offering Major, Minor, Patch, and Build with current -> next version-build previews."
+  default_prompt: "Use $release to release the current project. First check for uncommitted changes and stop if any exist; otherwise offer Major, Minor, Patch, and Build in an interactive selector with current -> next version-build previews."
