@@ -8,6 +8,18 @@ A collection of focused agent skills for software development workflows.
 | --- | --- |
 | [`git-commit`](git-commit) | Creates clean, reviewable commits with Conventional Commit messages. |
 | [`naming-review`](naming-review) | Reviews filenames and source-code identifiers for clarity, precision, consistency, and ambiguity. |
+| [`release`](release) | Releases iOS, Android, Node, and mygo projects by bumping versions and build numbers, committing, tagging, and pushing to Git. |
+
+The `release` skill reads the current version and build number and previews both for each release choice. For example, with version `0.1.0` and build number `41`:
+
+- `Major v0.1.0-41 -> v1.0.0-42`
+- `Minor v0.1.0-41 -> v0.2.0-42`
+- `Patch v0.1.0-41 -> v0.1.1-42`
+- `Build v0.1.0-41 -> v0.1.0-42`
+
+Every choice increments the build number once (`buildVersion` in Node/mygo JSON files), including Build. The skill uses `release: v<version>-<build>` for the commit and `v<version>-<build>` for the tag. Store uploads, package publishing, deployments, and GitHub Release creation are outside its scope.
+
+Its optional version calculator uses Python 3.6+ with no extra packages. Run it with `python3` on macOS/Linux or `py -3` on Windows (`python` also works when Python 3 is on PATH). Without Python, the agent follows the same calculation and validation rules directly. See the [release instructions](release/SKILL.md) for commands and platform details.
 
 ## Install
 
