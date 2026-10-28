@@ -40,7 +40,7 @@ Create clean, reviewable commits that each represent one coherent, independently
 
    * Do not commit secrets, credentials, tokens, private keys, generated noise, or unrelated local files.
    * Do not modify files only to make a commit unless the user explicitly asked for edits.
-   * Do not push commits unless the user explicitly asks to push.
+   * Do not push commits without the user's confirmation (see step 7).
    * If there are no changes to commit, report that clearly and do not create an empty commit unless explicitly requested.
 
 5. Validate when appropriate:
@@ -49,6 +49,13 @@ Create clean, reviewable commits that each represent one coherent, independently
    * If validation fails, explain the failure and avoid committing broken changes unless the user explicitly instructs otherwise.
 
 6. Omit the `Co-Authored-By` trailer from commit messages.
+
+7. Offer to push when commits are ready:
+
+   * After all commits are created, summarize them with `git log --oneline @{u}..HEAD` (or the new commits if there is no upstream).
+   * Ask the user whether to push the commits to `origin`, and wait for an explicit answer.
+   * If the user agrees, run `git push` (use `git push -u origin <branch>` when the branch has no upstream) and report the result.
+   * If the user declines or does not answer, leave the commits local and do not push.
 
 ## Atomic Commit Check
 
