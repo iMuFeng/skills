@@ -53,9 +53,11 @@ Create clean, reviewable commits that each represent one coherent, independently
 7. Offer to push when commits are ready:
 
    * After all commits are created, summarize them with `git log --oneline @{u}..HEAD` (or the new commits if there is no upstream).
-   * Ask the user whether to push the commits to `origin`, and wait for an explicit answer.
-   * If the user agrees, run `git push` (use `git push -u origin <branch>` when the branch has no upstream) and report the result.
-   * If the user declines or does not answer, leave the commits local and do not push.
+   * Ask: **Push these commits to `origin`?** Offer two choices: `Push to origin/<branch>` and `Keep local`.
+   * Prefer the current environment's available interactive question or selection tool, using its actual interface and respecting its execution-mode limits. Do not assume any product-specific tool name or API exists. Use numbered text options only when no suitable interactive tool is available or permitted, and briefly explain the limitation. Do not merely print options when a suitable interactive tool is available.
+   * Wait for the user's explicit selection. A preselected option, an unanswered asynchronous question, or elapsed time is not a selection. Ask even if the request already mentions pushing.
+   * If the user selects push, run `git push` (use `git push -u origin <branch>` when the branch has no upstream) and report the result. Do not use `--force`, `--tags`, or `--mirror`.
+   * If the user selects `Keep local`, leave the commits local and do not push.
 
 ## Atomic Commit Check
 
